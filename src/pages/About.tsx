@@ -1,10 +1,19 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Instagram, Linkedin, Facebook } from 'lucide-react';
 import { photographerInfo } from '@/data/photographer';
 import { Separator } from '@/components/ui/separator';
 import { SEOHead } from '@/components/seo/SEOHead';
+import { useRef } from 'react';
 
 export default function About() {
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
   return (
     <>
       <SEOHead
@@ -15,8 +24,8 @@ export default function About() {
       
       <div className="min-h-screen">
         {/* Hero Section */}
-        <section className="py-16 md:py-32 px-6 lg:px-8 border-b border-border">
-          <div className="max-w-4xl mx-auto text-center space-y-4 md:space-y-6">
+        <section ref={heroRef} className="relative py-16 md:py-32 px-6 lg:px-8 border-b border-border overflow-hidden">
+          <motion.div className="max-w-4xl mx-auto text-center space-y-4 md:space-y-6" style={{ y: heroY, opacity: heroOpacity }}>
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -29,7 +38,7 @@ export default function About() {
                 Photographer & Visual Storyteller
               </p>
             </motion.div>
-          </div>
+          </motion.div>
         </section>
 
         {/* Portrait and Biography */}
