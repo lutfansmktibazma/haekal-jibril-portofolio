@@ -1,4 +1,3 @@
-import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Project } from '@/types';
 import { ProjectCard } from './ProjectCard';
@@ -8,15 +7,13 @@ interface PortfolioGridProps {
 }
 
 /**
- * Professional portfolio grid using CSS Grid
- * Uniform rows with consistent spacing
- * Responsive: 3 columns desktop, 2 tablet, 1 mobile
+ * Portfolio grid - 2 cols on mobile, 2 on tablet, 3 on desktop
  */
 export function PortfolioGrid({ projects }: PortfolioGridProps) {
   return (
     <motion.div
       layout
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+      className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-1 md:gap-4 lg:gap-6"
     >
       <AnimatePresence mode="popLayout">
         {projects.map((project, index) => (
