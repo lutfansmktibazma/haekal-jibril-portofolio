@@ -18,11 +18,13 @@ All colors MUST be HSL.
   --popover-foreground: hsl(240 10% 3.9%);
   --primary: hsl(240 5.9% 10%);
   --primary-foreground: hsl(0 0% 98%);
-  --secondary: hsl(240 4.8% 95.9%);
+  --secondary: hsl(220 6% 94%);
   --secondary-foreground: hsl(240 5.9% 10%);
-  --muted: hsl(240 4.8% 95.9%);
-  --muted-foreground: hsl(240 3.8% 46.1%);
-  --accent: hsl(240 4.8% 95.9%);
+  --muted: hsl(220 6% 94%);
+  --muted-foreground: hsl(220 5% 42%);
+  --accent: hsl(220 6% 93%);
+  --accent-foreground: hsl(240 5.9% 10%);
+  --warm-accent: hsl(35 20% 88%);
   --accent-foreground: hsl(240 5.9% 10%);
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(0 0% 98%);
@@ -109,6 +111,7 @@ All colors MUST be HSL.
 
 @theme {
   --color-background: var(--background);
+  --color-warm-accent: var(--warm-accent);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
