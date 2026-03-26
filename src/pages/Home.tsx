@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { photographerInfo } from '@/data/photographer';
 import { getFeaturedProjects } from '@/data/projects';
 import { ProjectCard } from '@/components/portfolio/ProjectCard';
@@ -8,9 +8,18 @@ import { SEOHead } from '@/components/seo/SEOHead';
 import { Marquee } from '@/components/ui/Marquee';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useRef } from 'react';
 
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
     <>
@@ -18,8 +27,8 @@ export default function Home() {
       
       <div className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative h-screen w-full overflow-hidden">
-          <div className="absolute inset-0">
+        <section ref={heroRef} className="relative h-screen w-full overflow-hidden">
+          <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
             <video
               autoPlay
               muted
@@ -36,9 +45,9 @@ export default function Home() {
               <source src="https://videos.pexels.com/video-files/2675516/2675516-sd_960_540_24fps.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
-          </div>
+          </motion.div>
 
-          <div className="relative h-full flex flex-col items-center justify-center px-6">
+          <motion.div className="relative h-full flex flex-col items-center justify-center px-6" style={{ opacity: heroOpacity }}>
             <motion.div
               className="text-center space-y-4 md:space-y-6 max-w-4xl"
               initial={{ opacity: 0, y: 30 }}
@@ -90,7 +99,7 @@ export default function Home() {
             >
               <ScrollIndicator />
             </motion.div>
-          </div>
+          </motion.div>
         </section>
 
         {/* Running Text Marquee */}
