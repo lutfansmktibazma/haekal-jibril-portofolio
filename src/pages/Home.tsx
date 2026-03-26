@@ -99,7 +99,7 @@ export default function Home() {
             >
               <ScrollIndicator />
             </motion.div>
-          </div>
+          </motion.div>
         </section>
 
         {/* Running Text Marquee */}
