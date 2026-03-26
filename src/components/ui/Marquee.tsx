@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const jobs = [
   'Editorial Photography',
@@ -14,7 +15,7 @@ const jobs = [
 ];
 
 export function Marquee() {
-  const duplicated = [...jobs, ...jobs, ...jobs];
+  const isMobile = useIsMobile();
 
   return (
     <div className="relative overflow-hidden border-y border-border/50 bg-accent/20 py-5">
@@ -29,7 +30,7 @@ export function Marquee() {
           x: {
             repeat: Infinity,
             repeatType: 'loop',
-            duration: 15,
+            duration: isMobile ? 8 : 15,
             ease: 'linear',
           },
         }}
