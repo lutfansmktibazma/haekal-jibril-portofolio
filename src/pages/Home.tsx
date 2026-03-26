@@ -45,29 +45,38 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
             >
-              <motion.h1
-                className="text-4xl md:text-8xl lg:text-9xl font-extralight tracking-widest text-white"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.2 }}
+              <motion.div
+                className="overflow-hidden"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
               >
-                {photographerInfo.name.toUpperCase()}
-              </motion.h1>
+                <motion.h1
+                  className="text-4xl md:text-8xl lg:text-9xl font-extralight tracking-widest text-white"
+                  initial={{ y: '100%' }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                >
+                  {photographerInfo.name.toUpperCase()}
+                </motion.h1>
+              </motion.div>
               
-              <motion.p
-                className="text-lg md:text-2xl font-light tracking-wide text-white/90"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.4 }}
-              >
-                {photographerInfo.tagline}
-              </motion.p>
+              <motion.div className="overflow-hidden">
+                <motion.p
+                  className="text-lg md:text-2xl font-light tracking-wide text-white/90"
+                  initial={{ y: '100%' }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                >
+                  {photographerInfo.tagline}
+                </motion.p>
+              </motion.div>
 
               <motion.p
-                className="text-sm md:text-lg font-light leading-relaxed text-white/80 max-w-2xl mx-auto"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.6 }}
+                className="text-sm md:text-lg font-light leading-relaxed text-white/70 max-w-2xl mx-auto"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.2, delay: 0.9 }}
               >
                 {photographerInfo.heroIntroduction}
               </motion.p>
