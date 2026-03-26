@@ -1,6 +1,5 @@
 /**
  * Core TypeScript interfaces for Frame Portfolio
- * Based on SPECIFICATION.md data model requirements
  */
 
 export type ProjectCategory = 'portraits' | 'landscapes' | 'editorial' | 'architecture' | 'documentary';
@@ -44,8 +43,8 @@ export interface PhotographerInfo {
   availability: string;
   socialLinks: {
     instagram?: string;
+    facebook?: string;
     linkedin?: string;
-    behance?: string;
   };
   portraitImage: string;
 }

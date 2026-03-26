@@ -3,12 +3,7 @@ import { PortfolioGrid } from '@/components/portfolio/PortfolioGrid';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { motion } from 'framer-motion';
 
-/**
- * Portfolio page with masonry grid
- * Features smooth animations and responsive layout
- */
 export default function Portfolio() {
-
   return (
     <>
       <SEOHead 
@@ -18,30 +13,29 @@ export default function Portfolio() {
       
       <div className="min-h-screen">
         {/* Hero Section */}
-      <section className="relative py-24 md:py-32 px-6 lg:px-8 border-b border-border">
-        <div className="max-w-7xl mx-auto text-center space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-wide mb-4">
-              Portfolio
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide max-w-2xl mx-auto">
-              A curated collection of photography spanning diverse subjects and styles
-            </p>
-          </motion.div>
-        </div>
-      </section>
+        <section className="relative py-16 md:py-32 px-6 lg:px-8 border-b border-border">
+          <div className="max-w-7xl mx-auto text-center space-y-4 md:space-y-6">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-3">
+                Portfolio
+              </h1>
+              <p className="text-base md:text-xl text-muted-foreground font-light tracking-wide max-w-2xl mx-auto">
+                A curated collection of photography spanning diverse subjects and styles
+              </p>
+            </motion.div>
+          </div>
+        </section>
 
-      {/* Portfolio Grid - Edge to edge */}
-      <section className="py-12 md:py-16 px-2 md:px-4">
-        <PortfolioGrid projects={projects} />
-      </section>
+        {/* Portfolio Grid */}
+        <section className="py-8 md:py-16 px-1 md:px-4">
+          <PortfolioGrid projects={projects} />
+        </section>
 
-        {/* Bottom spacing */}
-        <div className="h-24" />
+        <div className="h-16 md:h-24" />
       </div>
     </>
   );
