@@ -40,11 +40,11 @@ export default function Home() {
               onError={(e) => {
                 const target = e.currentTarget;
                 target.style.opacity = '0';
-              }}
+              }}  
             >
-              <source src="https://videos.pexels.com/video-files/2675516/2675516-sd_960_540_24fps.mp4" type="video/mp4" />
+              <source src="/src/assets/hero-section.mp4" type="video/mp4" />
             </video>
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+            <div className="absolute inset  -0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
           </motion.div>
 
           <motion.div className="relative h-full flex flex-col items-center justify-center px-6" style={{ opacity: heroOpacity }}>
