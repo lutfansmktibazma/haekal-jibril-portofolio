@@ -8,9 +8,18 @@ import { SEOHead } from '@/components/seo/SEOHead';
 import { Marquee } from '@/components/ui/Marquee';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useRef } from 'react';
 
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
     <>
@@ -18,8 +27,8 @@ export default function Home() {
       
       <div className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative h-screen w-full overflow-hidden">
-          <div className="absolute inset-0">
+        <section ref={heroRef} className="relative h-screen w-full overflow-hidden">
+          <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
             <video
               autoPlay
               muted
