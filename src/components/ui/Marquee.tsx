@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 const jobs = [
   'Editorial Photography',
@@ -15,14 +14,13 @@ const jobs = [
 ];
 
 export function Marquee() {
-  const isMobile = useIsMobile();
   const duplicated = [...jobs, ...jobs, ...jobs];
 
   return (
-    <div className="relative overflow-hidden border-y border-border/30 bg-warm-accent/50 py-5">
+    <div className="relative overflow-hidden border-y border-border/50 bg-accent/20 py-5">
       {/* Fade edges */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-warm-accent/50 to-transparent z-10" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-warm-accent/50 to-transparent z-10" />
+      <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10" />
       
       <motion.div
         className="flex whitespace-nowrap gap-6 md:gap-10"
@@ -31,7 +29,7 @@ export function Marquee() {
           x: {
             repeat: Infinity,
             repeatType: 'loop',
-            duration: isMobile ? 8 : 15,
+            duration: 15,
             ease: 'linear',
           },
         }}

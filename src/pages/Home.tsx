@@ -106,7 +106,7 @@ export default function Home() {
         <Marquee />
 
         {/* Introduction Section */}
-        <section className="py-16 md:py-32 px-6 lg:px-8 bg-warm-accent/30">
+        <section className="py-16 md:py-32 px-6 lg:px-8 bg-background">
           <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
             <ScrollReveal>
               <div className="space-y-6">
