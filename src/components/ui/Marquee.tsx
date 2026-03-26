@@ -16,6 +16,7 @@ const jobs = [
 
 export function Marquee() {
   const isMobile = useIsMobile();
+  const duplicated = [...jobs, ...jobs, ...jobs];
 
   return (
     <div className="relative overflow-hidden border-y border-border/50 bg-accent/20 py-5">
