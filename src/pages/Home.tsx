@@ -45,9 +45,9 @@ export default function Home() {
               <source src="https://videos.pexels.com/video-files/2675516/2675516-sd_960_540_24fps.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
-          </div>
+          </motion.div>
 
-          <div className="relative h-full flex flex-col items-center justify-center px-6">
+          <motion.div className="relative h-full flex flex-col items-center justify-center px-6" style={{ opacity: heroOpacity }}>
             <motion.div
               className="text-center space-y-4 md:space-y-6 max-w-4xl"
               initial={{ opacity: 0, y: 30 }}
