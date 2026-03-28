@@ -35,7 +35,7 @@ export default function Home() {
               loop
               playsInline
               preload="metadata"
-              poster="https://images.pexels.com/videos/2675516/free-video-2675516.jpg?auto=compress&cs=tinysrgb&fit=crop&h=630&w=1200"
+              poster=""
               className="w-full h-full object-cover"
               onError={(e) => {
                 const target = e.currentTarget;

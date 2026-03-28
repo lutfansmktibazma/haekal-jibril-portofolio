@@ -28,9 +28,9 @@ Whether working on editorial assignments or commercial projects, I strive to cre
   ],
   education: 'SMK Telkom Jakarta',
   location: 'Jakarta, ID',
-  email: 'haekaljibril@gmail.com',
+  email: 'haekalvisual@gmail.com',
   phone: '+62 856-9129-2730',
-  availability: 'Currently looking for job',
+  availability: 'Curren tly looking for job',
   socialLinks: {
     instagram: 'https://instagram.com/haekalvisual',
     facebook: 'https://facebook.com/haekaljibrildeliansyah',
