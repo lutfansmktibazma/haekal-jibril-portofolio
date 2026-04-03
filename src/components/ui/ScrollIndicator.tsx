@@ -1,9 +1,7 @@
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
 
 /**
- * Animated scroll indicator for hero sections
- * Subtle visual cue to encourage scrolling
+ * Animated scroll indicator - minimal line style
  */
 export function ScrollIndicator() {
   const handleScroll = () => {
@@ -16,19 +14,21 @@ export function ScrollIndicator() {
   return (
     <motion.button
       onClick={handleScroll}
-      className="flex flex-col items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer"
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
+      className="flex flex-col items-center gap-2 cursor-pointer"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ delay: 1, duration: 0.8 }}
       aria-label="Scroll to content"
     >
-      <span className="text-xs font-light tracking-widest uppercase">Scroll</span>
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <ChevronDown className="size-5" />
-      </motion.div>
+      {/* Garis animasi turun */}
+      <div className="relative w-[1px] h-16 bg-white/20 overflow-hidden">
+        <motion.div
+          className="absolute top-0 left-0 w-full bg-white"
+          animate={{ y: ['-100%', '200%'] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          style={{ height: '50%' }}
+        />
+      </div>
     </motion.button>
   );
 }

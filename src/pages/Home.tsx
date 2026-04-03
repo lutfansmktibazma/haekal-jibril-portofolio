@@ -37,6 +37,7 @@ export default function Home() {
               preload="metadata"
               poster=""
               className="w-full h-full object-cover"
+              style={{ filter: 'grayscale(100%) contrast(1.2) brightness(0.85)' }}
               onError={(e) => {
                 const target = e.currentTarget;
                 target.style.opacity = '0';
@@ -44,55 +45,69 @@ export default function Home() {
             >
               <source src="/src/assets/hero-section.mp4" type="video/mp4" />
             </video>
-            <div className="absolute inset  -0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+            {/* Vignette + grain overlay */}
+            <div className="absolute inset-0 bg-black/30" />
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%)'
+              }}
+            />
+            <div 
+              className="absolute inset-0 opacity-[0.08]"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                backgroundRepeat: 'repeat',
+                backgroundSize: '128px 128px'
+              }}
+            />
           </motion.div>
 
-          <motion.div className="relative h-full flex flex-col items-center justify-center px-6" style={{ opacity: heroOpacity }}>
+          <motion.div 
+            className="relative h-full flex flex-col justify-end px-8 md:px-16 pb-24 md:pb-32" 
+            style={{ opacity: heroOpacity }}
+          >
             <motion.div
-              className="text-center space-y-4 md:space-y-6 max-w-4xl"
+              className="space-y-3 max-w-3xl"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
             >
-              <motion.div
-                className="overflow-hidden"
+              <motion.p
+                className="text-xs md:text-sm font-light tracking-[0.3em] text-white/70 uppercase"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <motion.h1
-                  className="text-4xl md:text-8xl lg:text-9xl font-extralight tracking-widest text-white"
-                  initial={{ y: '100%' }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                >
-                  {photographerInfo.name.toUpperCase()}
-                </motion.h1>
-              </motion.div>
-              
-              <motion.div className="overflow-hidden">
-                <motion.p
-                  className="text-lg md:text-2xl font-light tracking-wide text-white/90"
-                  initial={{ y: '100%' }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-                >
-                  {photographerInfo.tagline}
-                </motion.p>
-              </motion.div>
+                Photographer & Videographer
+              </motion.p>
+
+              <motion.h1
+                className="text-4xl md:text-7xl lg:text-8xl font-extralight tracking-wide text-white uppercase"
+                style={{ 
+                  fontFamily: "'Montserrat', sans-serif",
+                  textShadow: '0 2px 20px rgba(0,0,0,0.3)'
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                {photographerInfo.name}
+              </motion.h1>
 
               <motion.p
-                className="text-sm md:text-lg font-light leading-relaxed text-white/70 max-w-2xl mx-auto"
+                className="text-base md:text-xl font-light italic text-white/80 tracking-wide"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1.2, delay: 0.9 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
               >
-                {photographerInfo.heroIntroduction}
+                {photographerInfo.tagline}
               </motion.p>
             </motion.div>
 
             <motion.div
-              className="absolute bottom-12"
+              className="absolute bottom-4 left-1/2 -translate-x-1/2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 0.8 }}
@@ -101,7 +116,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </section>
-
+        
         {/* Running Text Marquee */}
         <Marquee />
 
