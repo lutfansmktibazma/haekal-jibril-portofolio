@@ -198,6 +198,13 @@ export default function Home() {
                   Featured Projects
                 </h2>
               </div>
+              <Link
+                to="/portfolio"
+                className="group inline-flex items-center gap-2 text-sm font-light tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <span>View All</span>
+                <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
           </ScrollReveal>
 
