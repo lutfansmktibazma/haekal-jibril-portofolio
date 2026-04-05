@@ -208,30 +208,36 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          {/* Horizontal Scroll */}
-          <div className="overflow-x-auto scrollbar-hide pl-6 md:pl-8">
-            <div className="flex gap-4 md:gap-6 w-max pr-6 md:pr-8">
-              {featuredProjects.map((project, index) => (
+          {/* Auto-scrolling carousel */}
+          <div className="relative overflow-hidden">
+            <motion.div
+              className="flex gap-4 md:gap-6 pl-6 md:pl-8 pr-6 md:pr-8 w-max"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+              whileHover={{ animationPlayState: 'paused' }}
+              style={{ animationPlayState: 'running' }}
+            >
+              {[...featuredProjects, ...featuredProjects].map((project, index) => (
                 <motion.div
-                  key={project.id}
+                  key={`${project.id}-${index}`}
                   className="w-[75vw] md:w-[40vw] lg:w-[30vw] flex-shrink-0"
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.5, delay: (index % featuredProjects.length) * 0.1 }}
                 >
                   <ProjectCard
                     project={project}
                     aspectRatio="portrait"
                     showCategory={true}
-                    index={index}
+                    index={index % featuredProjects.length}
                   />
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
-          {/* Scroll hint animation */}
+          {/* Swipe hint animation */}
           <ScrollReveal delay={0.4}>
             <div className="flex items-center justify-center mt-6 px-6 md:px-8">
               <div className="flex items-center gap-3">
@@ -244,7 +250,7 @@ export default function Home() {
                   />
                 </div>
                 <span className="text-[10px] font-light tracking-[0.3em] text-muted-foreground/50 uppercase">
-                  Scroll to explore
+                  Swipe to explore
                 </span>
               </div>
             </div>
