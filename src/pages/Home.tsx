@@ -8,11 +8,14 @@ import { SEOHead } from '@/components/seo/SEOHead';
 import { Marquee } from '@/components/ui/Marquee';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
   const heroRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
@@ -20,6 +23,28 @@ export default function Home() {
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+
+  // Auto scroll - berhenti hanya pas di-touch/klik
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    let animFrame: number;
+    const speed = 0.5;
+
+    const autoScroll = () => {
+      if (!isPaused && el) {
+        el.scrollLeft += speed;
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft = 0;
+        }
+      }
+      animFrame = requestAnimationFrame(autoScroll);
+    };
+
+    animFrame = requestAnimationFrame(autoScroll);
+    return () => cancelAnimationFrame(animFrame);
+  }, [isPaused]);
 
   return (
     <>
@@ -46,7 +71,6 @@ export default function Home() {
               <source src="/src/assets/hero-section.mp4" type="video/mp4" />
             </video>
 
-            {/* Overlay */}
             <div className="absolute inset-0 bg-black/30" />
             <div
               className="absolute inset-0"
@@ -65,7 +89,7 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            className="relative h-full flex flex-col justify-end px-8 md:px-16 pb-24 md:pb-32"
+            className="relative h-full flex flex-col justify-end px-8 md:px-16 pb-32 md:pb-40"
             style={{ opacity: heroOpacity }}
           >
             <motion.div
@@ -74,12 +98,12 @@ export default function Home() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, ease: "easeOut" }}
             >
-              {/* Label dengan garis */}
+              {/* Label */}
               <motion.div
                 className="flex items-center gap-3"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 1.0 }}
+                transition={{ duration: 0.8, delay: 1.4 }}
               >
                 <div className="w-6 h-px bg-white/50" />
                 <span
@@ -117,25 +141,15 @@ export default function Home() {
                 </motion.h1>
               </div>
 
-              {/* Tagline - animasi ketikan */}
+              {/* Tagline - fade */}
               <motion.p
                 className="text-[9px] md:text-xs font-light tracking-[0.2em] text-white/60 uppercase"
                 style={{ fontFamily: "'Montserrat', sans-serif" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 1.6 }}
               >
-                {Array.from(photographerInfo.tagline.toUpperCase()).map((char, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      duration: 0.01,
-                      delay: 1.6 + i * 0.05,
-                    }}
-                    style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
-                  >
-                    {char === ' ' ? '\u00A0' : char}
-                  </motion.span>
-                ))}
+                {photographerInfo.tagline.toUpperCase()}
               </motion.p>
             </motion.div>
 
@@ -157,17 +171,23 @@ export default function Home() {
         {/* Introduction Section */}
         <section className="py-16 md:py-24 px-6 lg:px-8 bg-background">
           <div className="max-w-6xl mx-auto">
-            <ScrollReveal>
-              <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
-                <div className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+
+              {/* Kiri */}
+              <div className="space-y-4">
+                <ScrollReveal>
                   <span className="text-[10px] font-light tracking-[0.3em] text-muted-foreground uppercase">
                     About
                   </span>
+                </ScrollReveal>
+                <ScrollReveal delay={0.1}>
                   <h2 className="text-3xl md:text-5xl font-light tracking-wide leading-tight">
                     The Story <br />
                     <span className="text-muted-foreground">Behind the</span> <br />
                     Lens
                   </h2>
+                </ScrollReveal>
+                <ScrollReveal delay={0.2}>
                   <Link
                     to="/about"
                     className="inline-flex items-center gap-2 text-sm font-light tracking-widest uppercase text-foreground hover:text-muted-foreground transition-colors group mt-4"
@@ -175,14 +195,33 @@ export default function Home() {
                     <span>Learn More</span>
                     <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
                   </Link>
-                </div>
+                </ScrollReveal>
+              </div>
+
+              {/* Kanan */}
+              <ScrollReveal delay={0.2}>
                 <div className="space-y-4 border-l border-border pl-8">
                   <p className="text-sm md:text-base font-light leading-relaxed text-muted-foreground">
-                    {photographerInfo.biography.split('\n\n')[0]}
+                    {Array.from(photographerInfo.biography.split('\n\n')[0]).map((char, i) => (
+                      <motion.span
+                        key={i}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{
+                          duration: 0.01,
+                          delay: i * 0.008,
+                        }}
+                        style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
+                      >
+                        {char === ' ' ? '\u00A0' : char}
+                      </motion.span>
+                    ))}
                   </p>
                 </div>
-              </div>
-            </ScrollReveal>
+              </ScrollReveal>
+
+            </div>
           </div>
         </section>
 
@@ -208,23 +247,20 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          {/* Auto-scrolling carousel */}
-          <div className="relative overflow-hidden">
-            <motion.div
-              className="flex gap-4 md:gap-6 pl-6 md:pl-8 pr-6 md:pr-8 w-max"
-              animate={{ x: ['0%', '-50%'] }}
-              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-              whileHover={{ animationPlayState: 'paused' }}
-              style={{ animationPlayState: 'running' }}
-            >
+          {/* Carousel - auto scroll, berhenti pas touch/klik */}
+          <div
+            ref={scrollRef}
+            className="overflow-x-auto scrollbar-hide pl-6 md:pl-8"
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+            onMouseDown={() => setIsPaused(true)}
+            onMouseUp={() => setIsPaused(false)}
+          >
+            <div className="flex gap-4 md:gap-6 w-max pr-6 md:pr-8">
               {[...featuredProjects, ...featuredProjects].map((project, index) => (
-                <motion.div
+                <div
                   key={`${project.id}-${index}`}
                   className="w-[75vw] md:w-[40vw] lg:w-[30vw] flex-shrink-0"
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: (index % featuredProjects.length) * 0.1 }}
                 >
                   <ProjectCard
                     project={project}
@@ -232,14 +268,14 @@ export default function Home() {
                     showCategory={true}
                     index={index % featuredProjects.length}
                   />
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
-          {/* Swipe hint animation */}
+          {/* Swipe hint */}
           <ScrollReveal delay={0.4}>
-            <div className="flex items-center justify-center mt-6 px-6 md:px-8">
+            <div className="flex items-center justify-center mt-2 px-6 md:px-8">
               <div className="flex items-center gap-3">
                 <div className="relative w-8 h-[1px] bg-muted-foreground/20 overflow-hidden">
                   <motion.div

@@ -118,9 +118,18 @@ export function Header() {
                   <Menu className="size-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full sm:w-80 bg-background/95 backdrop-blur-xl border-l border-border/50">
-                <div className="flex flex-col h-full py-8 px-6">
+              <SheetContent side="right" className="w-[85%] sm:w-80 bg-background/80 backdrop-blur-xl border-l border-border/20 [&>button]:hidden">
 
+                {/* Handle pill - bisa diklik buat nutup */}
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 flex items-center justify-center"
+                  aria-label="Close menu"
+                >
+                  <div className="w-1 h-12 bg-foreground/20 hover:bg-foreground/40 rounded-full transition-colors" />
+                </button>
+
+                <div className="flex flex-col h-full py-8 px-6">
                   {/* Logo di dalam menu */}
                   <p className="text-sm font-light tracking-widest text-muted-foreground uppercase mb-12">
                     {photographerInfo.name}
@@ -170,7 +179,6 @@ export function Header() {
                       {photographerInfo.tagline}
                     </p>
                   </div>
-
                 </div>
               </SheetContent>
             </Sheet>
