@@ -240,13 +240,6 @@ export default function Home() {
                   Scroll to explore
                 </span>
               </div>
-              <Link
-                to="/portfolio"
-                className="md:hidden group inline-flex items-center gap-2 text-sm font-light tracking-widest uppercase text-foreground hover:text-muted-foreground transition-colors"
-              >
-                <span>View All</span>
-                <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
-              </Link>
             </div>
           </ScrollReveal>
         </section>
