@@ -224,14 +224,21 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Scroll hint + View All mobile */}
+          {/* Scroll hint animation */}
           <ScrollReveal delay={0.4}>
-            <div className="flex items-center justify-between mt-6 px-6 md:px-8">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-px bg-muted-foreground/30" />
-                <span className="text-[10px] font-light tracking-[0.3em] text-muted-foreground/50 uppercase">
-                  Scroll to explore
+            <div className="flex items-center justify-center mt-8 mb-4">
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-[9px] font-light tracking-[0.3em] text-muted-foreground/40 uppercase">
+                  Scroll
                 </span>
+                <div className="relative w-[1px] h-8 bg-muted-foreground/20 overflow-hidden">
+                  <motion.div
+                    className="absolute top-0 left-0 w-full bg-muted-foreground"
+                    animate={{ y: ['-100%', '200%'] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    style={{ height: '50%' }}
+                  />
+                </div>
               </div>
             </div>
           </ScrollReveal>
