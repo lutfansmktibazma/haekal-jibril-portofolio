@@ -55,34 +55,45 @@ export function ProjectCard({
           />
           
           {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent 
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent
             md:from-black/90 md:via-black/30 md:to-black/10
             md:opacity-0 md:group-hover:opacity-100 transition-all duration-500">
             
-            {/* Content container */}
-            <div className="absolute inset-0 flex flex-col justify-end p-3 md:p-6">
-              {/* Title & info */}
-              <div className="space-y-1 md:space-y-2">
+            <div className="absolute inset-0 flex flex-col justify-end p-2 md:p-6">
+              <div className="space-y-0.5 md:space-y-2">
+                
                 <div className="flex items-center justify-between">
-                  <h3 className="text-white text-sm md:text-xl font-light tracking-wide 
-                    md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                  <motion.h3
+                    className="text-white text-xs md:text-xl font-light tracking-wide
+                      md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 ease-out"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.08 }}
+                  >
                     {project.title}
-                  </h3>
-                  <motion.div 
+                  </motion.h3>
+                  <motion.div
                     className="hidden md:flex items-center justify-center size-8 rounded-full bg-white/20 backdrop-blur-sm
                       opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-100"
                   >
                     <ArrowUpRight className="size-4 text-white" />
                   </motion.div>
                 </div>
+
                 {showCategory && (
-                  <div className="hidden md:flex items-center gap-3 text-xs text-white/70 font-light tracking-widest uppercase
-                    translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-75">
+                  <motion.div
+                    className="flex items-center gap-1.5 text-[8px] md:text-[10px] text-white/60 font-light tracking-[0.2em] uppercase
+                      md:translate-y-4 md:group-hover:translate-y-0 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 delay-75"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.08 + 0.1 }}
+                  >
                     <span>{project.category}</span>
                     <span className="text-white/30">—</span>
                     <span>{project.year}</span>
-                  </div>
+                  </motion.div>
                 )}
+
               </div>
             </div>
           </div>

@@ -18,18 +18,19 @@ export default function Contact() {
       />
       
       <div className="min-h-screen">
-        {/* Hero Section */}
-      <section className="py-24 md:py-32 px-6 lg:px-8 border-b border-border">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
+      
+      {/* Hero Section */}
+      <section className="py-8 md:py-12 px-6 lg:px-8 border-b border-border">
+        <div className="max-w-4xl mx-auto text-center space-y-2">
           <motion.div
             initial={{ opacity: 0.8, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-wide mb-4">
+            <h1 className="text-2xl md:text-3xl font-light tracking-widest uppercase mb-2">
               Get in Touch
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide">
+            <p className="text-xs md:text-sm text-muted-foreground font-light tracking-wide">
               Let's discuss your next project
             </p>
           </motion.div>

@@ -24,17 +24,17 @@ export default function About() {
       
       <div className="min-h-screen">
         {/* Hero Section */}
-        <section ref={heroRef} className="relative py-16 md:py-32 px-6 lg:px-8 border-b border-border overflow-hidden">
-          <motion.div className="max-w-4xl mx-auto text-center space-y-4 md:space-y-6" style={{ y: heroY, opacity: heroOpacity }}>
+        <section ref={heroRef} className="relative py-8 md:py-12 px-6 lg:px-8 border-b border-border overflow-hidden">
+          <motion.div className="max-w-4xl mx-auto text-center space-y-2" style={{ y: heroY, opacity: heroOpacity }}>
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-3">
+              <h1 className="text-2xl md:text-3xl font-light tracking-widest uppercase mb-2">
                 About
               </h1>
-              <p className="text-base md:text-xl text-muted-foreground font-light tracking-wide">
+              <p className="text-xs md:text-sm text-muted-foreground font-light tracking-wide">
                 Photographer & Visual Storyteller
               </p>
             </motion.div>

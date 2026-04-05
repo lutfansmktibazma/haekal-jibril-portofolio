@@ -21,7 +21,7 @@ export function ScrollIndicator() {
       aria-label="Scroll to content"
     >
       {/* Garis animasi turun */}
-      <div className="relative w-[1px] h-16 bg-white/20 overflow-hidden">
+      <div className="relative w-[1px] h-8 bg-white/20 overflow-hidden">
         <motion.div
           className="absolute top-0 left-0 w-full bg-white"
           animate={{ y: ['-100%', '200%'] }}
