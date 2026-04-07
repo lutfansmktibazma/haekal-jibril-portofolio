@@ -62,6 +62,7 @@ export default function About() {
                     preload="metadata"
                     poster=""
                     className="absolute inset-0 w-full h-full object-cover"
+                    style={{ filter: 'grayscale(100%) contrast(1.2) brightness(0.85)' }}
                     onError={(e) => {
                       const target = e.currentTarget;
                       target.style.display = 'none';

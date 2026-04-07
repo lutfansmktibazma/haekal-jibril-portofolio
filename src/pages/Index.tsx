@@ -1,11 +1,11 @@
-/**
- * Legacy Index page - redirects to Home
- * Kept for backward compatibility
- */
 import Home from './Home';
 
-const Index = () => {
-  return <Home />;
+interface IndexProps {
+  loaderDone?: boolean;
+}
+
+const Index = ({ loaderDone }: IndexProps) => {
+  return <Home loaderDone={loaderDone} />;
 };
 
 export default Index;

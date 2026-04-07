@@ -10,10 +10,11 @@ import { LoadingFallback } from "@/components/ui/LoadingFallback";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AnimatePresence } from "framer-motion";
-import { lazy, Suspense } from "react";
-import { CustomCursor } from '@/components/ui/customcursor';
+import { lazy, Suspense, useState } from "react";
+import { CustomCursor } from "@/components/ui/customcursor";
+import { PageLoader } from "@/components/ui/PageLoader";
+import { SmoothScroll } from '@/components/ui/SmoothScroll';
 
-// Code-split route components for better performance
 const Index = lazy(() => import("./pages/Index"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
@@ -23,85 +24,49 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
-function AnimatedRoutes() {
+function AnimatedRoutes({ loaderDone }: { loaderDone: boolean }) {
   const location = useLocation();
 
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route
-          path="/"
-          element={
-            <PageTransition>
-              <Index />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/portfolio"
-          element={
-            <PageTransition>
-              <Portfolio />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/project/:slug"
-          element={
-            <PageTransition>
-              <ProjectDetail />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <PageTransition>
-              <About />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/contact"
-          element={
-            <PageTransition>
-              <Contact />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <PageTransition>
-              <NotFound />
-            </PageTransition>
-          }
-        />
+        <Route path="/" element={<PageTransition><Index loaderDone={loaderDone} /></PageTransition>} />
+        <Route path="/portfolio" element={<PageTransition><Portfolio /></PageTransition>} />
+        <Route path="/project/:slug" element={<PageTransition><ProjectDetail /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+        <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );
 }
 
-const App = () => (
-  <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <CustomCursor />
-          <BrowserRouter>
-            <SkipToContent />
-            <Layout>
-              <Suspense fallback={<LoadingFallback />}>
-                <AnimatedRoutes />
-              </Suspense>
-            </Layout>
-          </BrowserRouter>
-        </TooltipProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
-  </ErrorBoundary>
-);
+const App = () => {
+  const [loaderDone, setLoaderDone] = useState(false);
+
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <CustomCursor />
+            <PageLoader onComplete={() => setLoaderDone(true)} />
+            <SmoothScroll />
+            <BrowserRouter>
+              <SkipToContent />
+              <Layout>
+                <Suspense fallback={<LoadingFallback />}>
+                  <AnimatedRoutes loaderDone={loaderDone} />
+                </Suspense>
+              </Layout>
+            </BrowserRouter>
+          </TooltipProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
+};
 
 export default App;

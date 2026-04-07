@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import type { Project } from '@/types';
 import { cn } from '@/lib/utils';
@@ -19,7 +19,16 @@ export function ProjectCard({
   index = 0 
 }: ProjectCardProps) {
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [isTapped, setIsTapped] = React.useState(false);
+  const ref = React.useRef(null);
   const ratio = aspectRatio || 'landscape';
+
+  // Parallax
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const imgY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%']);
   
   const aspectRatioClasses = {
     portrait: 'aspect-[3/4]',
@@ -29,27 +38,34 @@ export function ProjectCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, delay: index * 0.08 }}
+      whileTap={{ scale: 0.97 }}
     >
       <Link
         to={`/project/${project.slug}`}
         className="group block relative overflow-hidden rounded-sm"
+        onTouchStart={() => setIsTapped(true)}
+        onTouchEnd={() => setTimeout(() => setIsTapped(false), 400)}
       >
         <div className={cn('relative overflow-hidden bg-muted', aspectRatioClasses[ratio])}>
           {!isLoaded && (
             <div className="absolute inset-0 bg-muted animate-pulse" />
           )}
           
+          {/* Parallax image */}
           <motion.img
             src={project.coverImage}
             alt={project.title}
             className={cn(
               'absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out',
               isLoaded ? 'opacity-100' : 'opacity-0',
-              'group-hover:scale-110'
+              'group-hover:scale-110 group-active:scale-110'
             )}
+            style={{ y: imgY, scale: 1.15 }}
             loading={index < 6 ? 'eager' : 'lazy'}
             onLoad={() => setIsLoaded(true)}
           />
@@ -57,11 +73,12 @@ export function ProjectCard({
           {/* Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent
             md:from-black/90 md:via-black/30 md:to-black/10
-            md:opacity-0 md:group-hover:opacity-100 transition-all duration-500">
+            md:opacity-0 md:group-hover:opacity-100 
+            group-active:from-black/95 group-active:via-black/40
+            transition-all duration-500">
             
             <div className="absolute inset-0 flex flex-col justify-end p-2 md:p-6">
               <div className="space-y-0.5 md:space-y-2">
-                
                 <div className="flex items-center justify-between">
                   <motion.h3
                     className="text-white text-xs md:text-xl font-light tracking-wide
@@ -93,10 +110,25 @@ export function ProjectCard({
                     <span>{project.year}</span>
                   </motion.div>
                 )}
-
               </div>
             </div>
           </div>
+
+          {/* Shimmer effect pas di-tap */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0, x: '-100%' }}
+            animate={isTapped ? { opacity: 1, x: '100%' } : { opacity: 0, x: '-100%' }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            style={{
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
+            }}
+          />
+
+          {/* Tap ripple */}
+          <motion.div
+            className="absolute inset-0 bg-white/5 opacity-0 group-active:opacity-100 transition-opacity duration-150"
+          />
         </div>
       </Link>
     </motion.div>

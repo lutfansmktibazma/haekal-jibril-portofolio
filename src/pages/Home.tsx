@@ -9,8 +9,14 @@ import { Marquee } from '@/components/ui/Marquee';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
+import { CountUp } from '@/components/ui/CountUp';
+import { SmoothScroll } from '@/components/ui/SmoothScroll';
 
-export default function Home() {
+interface HomeProps {
+  loaderDone?: boolean;
+}
+
+export default function Home({ loaderDone = false }: HomeProps) {
   const featuredProjects = getFeaturedProjects();
   const heroRef = useRef(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -24,7 +30,6 @@ export default function Home() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
-  // Auto scroll - berhenti hanya pas di-touch/klik
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -55,29 +60,16 @@ export default function Home() {
         <section ref={heroRef} className="relative h-screen w-full overflow-hidden">
           <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
             <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster=""
+              autoPlay muted loop playsInline preload="metadata" poster=""
               className="w-full h-full object-cover"
               style={{ filter: 'grayscale(100%) contrast(1.2) brightness(0.85)' }}
-              onError={(e) => {
-                const target = e.currentTarget;
-                target.style.opacity = '0';
-              }}
+              onError={(e) => { e.currentTarget.style.opacity = '0'; }}
             >
               <source src="/src/assets/hero-section.mp4" type="video/mp4" />
             </video>
 
             <div className="absolute inset-0 bg-black/30" />
-            <div
-              className="absolute inset-0"
-              style={{
-                background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%)'
-              }}
-            />
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%)' }} />
             <div
               className="absolute inset-0 opacity-[0.08]"
               style={{
@@ -95,15 +87,15 @@ export default function Home() {
             <motion.div
               className="space-y-3 max-w-2xl"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={{ opacity: loaderDone ? 1 : 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
             >
               {/* Label */}
               <motion.div
                 className="flex items-center gap-3"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 1.4 }}
+                animate={{ opacity: loaderDone ? 1 : 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
               >
                 <div className="w-6 h-px bg-white/50" />
                 <span
@@ -124,14 +116,14 @@ export default function Home() {
                     letterSpacing: '0.08em',
                   }}
                 >
-                  {Array.from("HAEKAL JIBRIL").map((char, i) => (
+                  {loaderDone && Array.from("HAEKAL JIBRIL").map((char, i) => (
                     <motion.span
                       key={i}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{
                         duration: 0.01,
-                        delay: 0.5 + i * 0.08,
+                        delay: 0.4 + i * 0.08,
                       }}
                       style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
                     >
@@ -146,8 +138,8 @@ export default function Home() {
                 className="text-[9px] md:text-xs font-light tracking-[0.2em] text-white/60 uppercase"
                 style={{ fontFamily: "'Montserrat', sans-serif" }}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 1.6 }}
+                animate={{ opacity: loaderDone ? 1 : 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
               >
                 {photographerInfo.tagline.toUpperCase()}
               </motion.p>
@@ -157,8 +149,8 @@ export default function Home() {
             <motion.div
               className="absolute bottom-10 left-1/2 -translate-x-1/2"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2, duration: 0.8 }}
+              animate={{ opacity: loaderDone ? 1 : 0 }}
+              transition={{ delay: 1.6, duration: 0.8 }}
             >
               <ScrollIndicator />
             </motion.div>
@@ -169,58 +161,93 @@ export default function Home() {
         <Marquee />
 
         {/* Introduction Section */}
-        <section className="py-16 md:py-24 px-6 lg:px-8 bg-background">
+        <section className="py-16 md:py-24 px-6 lg:px-8 bg-background overflow-hidden">
           <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
-
-              {/* Kiri */}
-              <div className="space-y-4">
-                <ScrollReveal>
-                  <span className="text-[10px] font-light tracking-[0.3em] text-muted-foreground uppercase">
-                    About
-                  </span>
-                </ScrollReveal>
-                <ScrollReveal delay={0.1}>
-                  <h2 className="text-3xl md:text-5xl font-light tracking-wide leading-tight">
-                    The Story <br />
-                    <span className="text-muted-foreground">Behind the</span> <br />
-                    Lens
-                  </h2>
-                </ScrollReveal>
-                <ScrollReveal delay={0.2}>
-                  <Link
-                    to="/about"
-                    className="inline-flex items-center gap-2 text-sm font-light tracking-widest uppercase text-foreground hover:text-muted-foreground transition-colors group mt-4"
-                  >
-                    <span>Learn More</span>
-                    <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </ScrollReveal>
-              </div>
-
-              {/* Kanan */}
-              <ScrollReveal delay={0.2}>
-                <div className="space-y-4 border-l border-border pl-8">
-                  <p className="text-sm md:text-base font-light leading-relaxed text-muted-foreground">
-                    {Array.from(photographerInfo.biography.split('\n\n')[0]).map((char, i) => (
-                      <motion.span
-                        key={i}
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{
-                          duration: 0.01,
-                          delay: i * 0.008,
-                        }}
-                        style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
-                      >
-                        {char === ' ' ? '\u00A0' : char}
-                      </motion.span>
-                    ))}
-                  </p>
-                </div>
+            <div className="relative">
+              <ScrollReveal>
+                <span
+                  className="absolute -top-8 -left-4 text-[120px] md:text-[200px] font-bold text-foreground/[0.03] leading-none select-none pointer-events-none"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
+                >
+                  01
+                </span>
               </ScrollReveal>
 
+              <div className="grid md:grid-cols-2 gap-8 md:gap-16">
+                <div className="space-y-6 relative z-10">
+                  <ScrollReveal>
+                    <span className="text-[10px] font-light tracking-[0.3em] text-muted-foreground uppercase">
+                      About
+                    </span>
+                  </ScrollReveal>
+
+                  <ScrollReveal delay={0.1}>
+                    <h2 className="text-4xl md:text-6xl font-light tracking-wide leading-tight">
+                      The Story <br />
+                      <span className="text-muted-foreground/60">Behind the</span> <br />
+                      Lens
+                    </h2>
+                  </ScrollReveal>
+
+                  <ScrollReveal delay={0.2}>
+                    <div className="flex gap-8 pt-2">
+                      <div className="space-y-1">
+                        <p className="text-2xl md:text-3xl font-light text-foreground">
+                          <CountUp end={5} suffix="+" duration={1.5} />
+                        </p>
+                        <p className="text-[10px] font-light tracking-[0.2em] text-muted-foreground uppercase">Years</p>
+                      </div>
+                      <div className="w-px bg-border" />
+                      <div className="space-y-1">
+                        <p className="text-2xl md:text-3xl font-light text-foreground">
+                          <CountUp end={120} suffix="+" duration={2} />
+                        </p>
+                        <p className="text-[10px] font-light tracking-[0.2em] text-muted-foreground uppercase">Projects</p>
+                      </div>
+                      <div className="w-px bg-border" />
+                      <div className="space-y-1">
+                        <p className="text-2xl md:text-3xl font-light text-foreground">
+                          <CountUp end={30} suffix="+" duration={1.8} />
+                        </p>
+                        <p className="text-[10px] font-light tracking-[0.2em] text-muted-foreground uppercase">Clients</p>
+                      </div>
+                    </div>
+                  </ScrollReveal>
+
+                  <ScrollReveal delay={0.3}>
+                    <Link
+                      to="/about"
+                      className="inline-flex items-center gap-2 text-sm font-light tracking-widest uppercase text-foreground hover:text-muted-foreground transition-colors group"
+                    >
+                      <span>Learn More</span>
+                      <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </ScrollReveal>
+                </div>
+
+                <div className="relative z-10">
+                  <ScrollReveal delay={0.2}>
+                    <div className="space-y-6">
+                      <div className="w-full h-px bg-border" />
+                      <p className="text-sm md:text-base font-light leading-relaxed text-muted-foreground">
+                        {Array.from(photographerInfo.biography.split('\n\n')[0]).map((char, i) => (
+                          <motion.span
+                            key={i}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.01, delay: i * 0.008 }}
+                            style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
+                          >
+                            {char === ' ' ? '\u00A0' : char}
+                          </motion.span>
+                        ))}
+                      </p>
+                      <div className="w-full h-px bg-border" />
+                    </div>
+                  </ScrollReveal>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -247,7 +274,6 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          {/* Carousel - auto scroll, berhenti pas touch/klik */}
           <div
             ref={scrollRef}
             className="overflow-x-auto scrollbar-hide pl-6 md:pl-8"
@@ -273,9 +299,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Swipe hint */}
           <ScrollReveal delay={0.4}>
-            <div className="flex items-center justify-center mt-2 px-6 md:px-8">
+            <div className="flex items-center justify-center mt-6 px-6 md:px-8">
               <div className="flex items-center gap-3">
                 <div className="relative w-8 h-[1px] bg-muted-foreground/20 overflow-hidden">
                   <motion.div
