@@ -135,8 +135,8 @@ export default function About() {
                     <TypewriterText
                       key={index}
                       text={paragraph}
-                      speed={20}
-                      delay={index * 2000}
+                      speed={8}
+                      delay={index * 800}
                       className="text-sm md:text-lg font-light leading-relaxed text-muted-foreground"
                     />
                   ))}
