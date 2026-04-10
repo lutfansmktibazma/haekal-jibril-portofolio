@@ -31,10 +31,10 @@ export default function Contact() {
                     Get in Touch
                   </p>
                   <Separator className="w-12" />
-                  <h1 className="text-3xl md:text-5xl lg:text-6xl font-extralight tracking-tight leading-[1.1]">
+                  <h1 className="text-2xl md:text-5xl lg:text-6xl font-extralight tracking-[0.03em] leading-[1.1]">
                     Let's create<br />
                     something<br />
-                    <span className="italic">together.</span>
+                    <span className="italic font-light">together.</span>
                   </h1>
                 </div>
 

@@ -24,7 +24,7 @@ export default function About() {
 
       <div className="min-h-screen" ref={containerRef}>
         {/* Full-width cinematic video section */}
-        <section className="relative h-[60vh] md:h-[75vh] overflow-hidden">
+        <section className="relative h-[55vh] md:h-[75vh] overflow-hidden">
           <motion.div className="absolute inset-0" style={{ scale: imgScale }}>
             <video
               autoPlay
@@ -53,7 +53,7 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="max-w-6xl mx-auto">
-              <h1 className="text-4xl md:text-7xl lg:text-8xl font-extralight tracking-tight">
+              <h1 className="text-3xl md:text-7xl lg:text-8xl font-extralight tracking-[0.05em]">
                 {photographerInfo.name}
               </h1>
               <p className="text-sm md:text-base text-muted-foreground font-light tracking-[0.3em] uppercase mt-2 md:mt-4">

@@ -100,7 +100,6 @@ export default function Home({ loaderDone = false }: HomeProps) {
                 <div className="w-6 h-px bg-white/50" />
                 <span
                   className="text-[9px] md:text-[11px] font-light tracking-[0.3em] text-white/60 uppercase"
-                  style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
                   Photographer & Videographer
                 </span>
@@ -109,12 +108,7 @@ export default function Home({ loaderDone = false }: HomeProps) {
               {/* Nama - animasi ketikan */}
               <div className="overflow-hidden">
                 <motion.h1
-                  className="text-4xl md:text-6xl lg:text-7xl text-white leading-tight"
-                  style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontWeight: 300,
-                    letterSpacing: '0.08em',
-                  }}
+                  className="text-4xl md:text-6xl lg:text-7xl text-white leading-tight font-light tracking-[0.08em]"
                 >
                   {loaderDone && Array.from("HAEKAL JIBRIL").map((char, i) => (
                     <motion.span
@@ -136,7 +130,6 @@ export default function Home({ loaderDone = false }: HomeProps) {
               {/* Tagline - fade */}
               <motion.p
                 className="text-[9px] md:text-xs font-light tracking-[0.2em] text-white/60 uppercase"
-                style={{ fontFamily: "'Montserrat', sans-serif" }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: loaderDone ? 1 : 0 }}
                 transition={{ duration: 0.8, delay: 0.1 }}
@@ -167,7 +160,6 @@ export default function Home({ loaderDone = false }: HomeProps) {
               <ScrollReveal>
                 <span
                   className="absolute -top-8 -left-4 text-[120px] md:text-[200px] font-bold text-foreground/[0.03] leading-none select-none pointer-events-none"
-                  style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
                   01
                 </span>
