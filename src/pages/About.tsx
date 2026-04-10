@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Instagram, Linkedin, Facebook } from 'lucide-react';
+import { Instagram, Linkedin, Facebook, ArrowUpRight } from 'lucide-react';
 import { photographerInfo } from '@/data/photographer';
 import { Separator } from '@/components/ui/separator';
 import { SEOHead } from '@/components/seo/SEOHead';
@@ -7,13 +7,12 @@ import { useRef } from 'react';
 import { TypewriterText } from '@/components/ui/TypewriterText';
 
 export default function About() {
-  const heroRef = useRef(null);
+  const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
-    target: heroRef,
+    target: containerRef,
     offset: ['start start', 'end start'],
   });
-  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
   return (
     <>
@@ -22,139 +21,179 @@ export default function About() {
         description={`Learn about ${photographerInfo.name}, ${photographerInfo.tagline}. ${photographerInfo.biography.split('\n\n')[0]}`}
         image={photographerInfo.portraitImage}
       />
-      
-      <div className="min-h-screen">
-        {/* Hero Section */}
-        <section ref={heroRef} className="relative py-8 md:py-12 px-6 lg:px-8 border-b border-border overflow-hidden">
-          <motion.div className="max-w-4xl mx-auto text-center space-y-2" style={{ y: heroY, opacity: heroOpacity }}>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+
+      <div className="min-h-screen" ref={containerRef}>
+        {/* Full-width cinematic video section */}
+        <section className="relative h-[60vh] md:h-[75vh] overflow-hidden">
+          <motion.div className="absolute inset-0" style={{ scale: imgScale }}>
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="w-full h-full object-cover"
+              style={{ filter: 'grayscale(100%) contrast(1.1) brightness(0.7)' }}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
             >
-              <h1 className="text-2xl md:text-3xl font-light tracking-widest uppercase mb-2">
-                About
+              <source src="/src/assets/about.mp4" type="video/mp4" />
+            </video>
+          </motion.div>
+
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+
+          {/* Name overlay at bottom */}
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 px-6 lg:px-12 pb-8 md:pb-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="max-w-6xl mx-auto">
+              <h1 className="text-4xl md:text-7xl lg:text-8xl font-extralight tracking-tight">
+                {photographerInfo.name}
               </h1>
-              <p className="text-xs md:text-sm text-muted-foreground font-light tracking-wide">
-                Photographer & Visual Storyteller
+              <p className="text-sm md:text-base text-muted-foreground font-light tracking-[0.3em] uppercase mt-2 md:mt-4">
+                {photographerInfo.tagline}
               </p>
-            </motion.div>
+            </div>
           </motion.div>
         </section>
 
-        {/* Portrait and Biography */}
-        <section className="py-12 md:py-24 px-6 lg:px-8">
+        {/* Biography section - editorial style */}
+        <section className="px-6 lg:px-12 py-16 md:py-28">
           <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-start">
-              {/* Portrait Image */}
+            <div className="grid md:grid-cols-12 gap-8 md:gap-12">
+              {/* Left column - label */}
               <motion.div
-                className="space-y-5"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                className="md:col-span-3"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <div className="aspect-[3/4] relative overflow-hidden rounded-sm bg-muted">
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    poster=""
-                    className="absolute inset-0 w-full h-full object-cover"
-                    style={{ filter: 'grayscale(100%) contrast(1.2) brightness(0.85)' }}
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.style.display = 'none';
-                    }}
-                  >
-                    <source src="/src/assets/about.mp4" type="video/mp4" />
-                  </video>
-                </div>
-                
-                {/* Social Links */}
-                <div className="flex items-center gap-3">
-                  {photographerInfo.socialLinks.instagram && (
-                    <a
-                      href={photographerInfo.socialLinks.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 border border-border rounded-sm hover:bg-accent transition-colors"
-                      aria-label="Instagram"
-                    >
-                      <Instagram className="size-5" />
-                    </a>
-                  )}
-                  {photographerInfo.socialLinks.facebook && (
-                    <a
-                      href={photographerInfo.socialLinks.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 border border-border rounded-sm hover:bg-accent transition-colors"
-                      aria-label="Facebook"
-                    >
-                      <Facebook className="size-5" />
-                    </a>
-                  )}
-                  {photographerInfo.socialLinks.linkedin && (
-                    <a
-                      href={photographerInfo.socialLinks.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 border border-border rounded-sm hover:bg-accent transition-colors"
-                      aria-label="LinkedIn"
-                    >
-                      <Linkedin className="size-5" />
-                    </a>
-                  )}
-                </div>
+                <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-muted-foreground font-light">
+                  Biography
+                </p>
+                <Separator className="mt-4 w-12" />
               </motion.div>
 
-              {/* Biography and Info */}
+              {/* Right column - biography text */}
               <motion.div
-                className="space-y-6 md:space-y-8"
+                className="md:col-span-9 space-y-6"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.15 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
               >
-                <div className="space-y-3">
-                  <h2 className="text-3xl md:text-5xl font-light tracking-wide">
-                    {photographerInfo.name}
-                  </h2>
-                  <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide">
-                    {photographerInfo.tagline}
-                  </p>
-                </div>
+                {photographerInfo.biography.split('\n\n').map((paragraph, index) => (
+                  <TypewriterText
+                    key={index}
+                    text={paragraph}
+                    speed={8}
+                    delay={index * 800}
+                    className="text-base md:text-xl lg:text-2xl font-extralight leading-relaxed text-foreground/80"
+                  />
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </section>
 
-                <Separator />
+        {/* Details section */}
+        <section className="px-6 lg:px-12 pb-16 md:pb-28">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-12 gap-8 md:gap-12">
+              <div className="md:col-span-3">
+                <motion.p
+                  className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-muted-foreground font-light"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                >
+                  Details
+                </motion.p>
+                <Separator className="mt-4 w-12" />
+              </div>
 
-                <div className="space-y-4">
-                  {photographerInfo.biography.split('\n\n').map((paragraph, index) => (
-                    <TypewriterText
-                      key={index}
-                      text={paragraph}
-                      speed={8}
-                      delay={index * 800}
-                      className="text-sm md:text-lg font-light leading-relaxed text-muted-foreground"
-                    />
-                  ))}
-                </div>
+              <motion.div
+                className="md:col-span-9"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-12">
+                  {/* Location */}
+                  <div className="space-y-1">
+                    <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light">Location</p>
+                    <p className="text-lg md:text-xl font-extralight">{photographerInfo.location}</p>
+                  </div>
 
-                <div className="pt-4 space-y-2">
-                  <div className="text-sm font-light tracking-wide">
-                    <span className="text-muted-foreground">Email: </span>
+                  {/* Education */}
+                  <div className="space-y-1">
+                    <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light">Education</p>
+                    <p className="text-lg md:text-xl font-extralight">{photographerInfo.education}</p>
+                  </div>
+
+                  {/* Email */}
+                  <div className="space-y-1">
+                    <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light">Email</p>
                     <a
                       href={`mailto:${photographerInfo.email}`}
-                      className="text-foreground hover:text-muted-foreground transition-colors"
+                      className="text-lg md:text-xl font-extralight hover:text-muted-foreground transition-colors inline-flex items-center gap-2 group"
                     >
                       {photographerInfo.email}
+                      <ArrowUpRight className="size-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </a>
                   </div>
-                  <div className="text-sm font-light tracking-wide">
-                    <span className="text-muted-foreground">Location: </span>
-                    <span className="text-foreground">{photographerInfo.location}</span>
+
+                  {/* Availability */}
+                  <div className="space-y-1">
+                    <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light">Status</p>
+                    <p className="text-lg md:text-xl font-extralight">{photographerInfo.availability}</p>
+                  </div>
+                </div>
+
+                {/* Social Links */}
+                <div className="mt-12 pt-8 border-t border-border">
+                  <div className="flex items-center gap-4">
+                    {photographerInfo.socialLinks.instagram && (
+                      <a
+                        href={photographerInfo.socialLinks.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light hover:text-foreground transition-colors flex items-center gap-2"
+                      >
+                        <Instagram className="size-4" />
+                        Instagram
+                      </a>
+                    )}
+                    {photographerInfo.socialLinks.facebook && (
+                      <a
+                        href={photographerInfo.socialLinks.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light hover:text-foreground transition-colors flex items-center gap-2"
+                      >
+                        <Facebook className="size-4" />
+                        Facebook
+                      </a>
+                    )}
+                    {photographerInfo.socialLinks.linkedin && (
+                      <a
+                        href={photographerInfo.socialLinks.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-light hover:text-foreground transition-colors flex items-center gap-2"
+                      >
+                        <Linkedin className="size-4" />
+                        LinkedIn
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>

@@ -1,18 +1,9 @@
 import { projects } from '@/data/projects';
 import { PortfolioGrid } from '@/components/portfolio/PortfolioGrid';
 import { SEOHead } from '@/components/seo/SEOHead';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 
 export default function Portfolio() {
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  });
-  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
   return (
     <>
       <SEOHead 
@@ -21,30 +12,29 @@ export default function Portfolio() {
       />
       
       <div className="min-h-screen">
-        {/* Hero Section */}
-        <section ref={heroRef} className="relative py-8 md:py-12 px-6 lg:px-8 border-b border-border overflow-hidden">
-          <motion.div className="max-w-7xl mx-auto text-center space-y-2" style={{ y: heroY, opacity: heroOpacity }}>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-2xl md:text-3xl font-light tracking-widest uppercase mb-2">
-                Portfolio
-              </h1>
-              <p className="text-xs md:text-sm text-muted-foreground font-light tracking-wide max-w-2xl mx-auto">
-                A curated collection of photography spanning diverse subjects and styles
-              </p>
-            </motion.div>
-          </motion.div>
-        </section>
+        {/* Minimal top spacing with project count */}
+        <motion.div
+          className="px-6 lg:px-12 pt-8 md:pt-12 pb-4 md:pb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="max-w-7xl mx-auto flex items-baseline justify-between">
+            <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-muted-foreground font-light">
+              Selected Works
+            </p>
+            <p className="text-[10px] md:text-xs tracking-[0.2em] text-muted-foreground/60 font-light">
+              {projects.length} Projects
+            </p>
+          </div>
+        </motion.div>
 
-        {/* Portfolio Grid */}
-        <section className="py-8 md:py-16 px-1 md:px-4">
-          <PortfolioGrid projects={projects} />
+        {/* Portfolio Grid - edge-to-edge feel */}
+        <section className="px-1 md:px-4 lg:px-8 pb-16 md:pb-24">
+          <div className="max-w-7xl mx-auto">
+            <PortfolioGrid projects={projects} />
+          </div>
         </section>
-
-        <div className="h-16 md:h-24" />
       </div>
     </>
   );
