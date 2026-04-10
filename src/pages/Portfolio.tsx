@@ -14,7 +14,7 @@ export default function Portfolio() {
       <div className="min-h-screen">
         {/* Minimal top spacing with project count */}
         <motion.div
-          className="px-6 lg:px-12 pt-8 md:pt-12 pb-4 md:pb-8"
+          className="px-4 md:px-6 lg:px-12 pt-6 md:pt-12 pb-3 md:pb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
