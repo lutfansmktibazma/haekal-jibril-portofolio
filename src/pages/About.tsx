@@ -4,6 +4,7 @@ import { photographerInfo } from '@/data/photographer';
 import { Separator } from '@/components/ui/separator';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { useRef } from 'react';
+import { TypewriterText } from '@/components/ui/TypewriterText';
 
 export default function About() {
   const heroRef = useRef(null);
@@ -131,12 +132,13 @@ export default function About() {
 
                 <div className="space-y-4">
                   {photographerInfo.biography.split('\n\n').map((paragraph, index) => (
-                    <p
+                    <TypewriterText
                       key={index}
+                      text={paragraph}
+                      speed={20}
+                      delay={index * 2000}
                       className="text-sm md:text-lg font-light leading-relaxed text-muted-foreground"
-                    >
-                      {paragraph}
-                    </p>
+                    />
                   ))}
                 </div>
 
